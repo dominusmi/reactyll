@@ -1,0 +1,15 @@
+{
+  "name": "reactyll",
+  "version": "1.0.0",
+  "description": "A Jekyll inspired blog creator for React, with multi-lingual support",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --esModuleInterop index.ts"
+  },
+  "bin": {
+    "blogger": "./generateBlogPages.js"
+  },
+  "author": "Edoardo Barp",
+  "license": "AGPL-3.0-only"
+}
