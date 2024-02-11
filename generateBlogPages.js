@@ -24,7 +24,9 @@ deleteFolderRecursive(`${process.cwd()}/src/_blog`);
 fs.mkdirSync(`${process.cwd()}/src/_blog`);
 
 const mapper = {};
-
+let imports = [];
+let blogRoutes = [];
+let i = 0;
 for(const file of fs.readdirSync("blog")){
     // const file = "test.md";
     const fileRoot = file.replace(".md", "");
@@ -59,15 +61,21 @@ for(const file of fs.readdirSync("blog")){
         // the base64 is needed to avoid issues with special characters such as \n
         const newComponent = component.replace('%REPLACE%', btoa(JSON.stringify(x)));
         fs.writeFileSync(`${process.cwd()}/src/_blog/${filename}.tsx`, newComponent);
-        mapper[fileRoot][properties.language] =
-        {
-            component: `./_blog/${filename}.tsx`,
-            ...properties
-        };
+        mapper[fileRoot][properties.language] = properties;
+        imports.push(`const Blog${i} = React.lazy(() => import("./${filename}"))`)
+        blogRoutes.push([properties.url, `Blog${i}`])
+        i += 1;
     }
 }
 
-fs.writeFileSync(`${process.cwd()}/src/_blog/routes.tsx`, `export const blogs = ${JSON.stringify(mapper)}`);
+// We need to replace "BlogN" with BlogN in order for it not to be a string, but the
+// actual imported component
+fs.writeFileSync(`${process.cwd()}/src/_blog/routes.tsx`, `
+import React from "react"
+
+${imports.join("\n")}
+export const blogRoutes = ${JSON.stringify(blogRoutes).replace(/"Blog(\d+)"/g, 'Blog$1')};
+export const blogs = ${JSON.stringify(mapper)}`);
 
 // let imports = "";
 // let routes = "";
