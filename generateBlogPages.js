@@ -37,9 +37,13 @@ for(const file of fs.readdirSync("blog")){
     // 1. parse blog markdown 
     const blogsInFile = content.split(" - - -");
     let duplicateBlogs = []
-    for (const blog of blogsInFile) {
+    let masterProperties = {}
+    blogsInFile.forEach((blog, index) => {
         const tmp = blog.split(' - -');
-        const properties = yaml.load(tmp[0]);
+        let properties = yaml.load(tmp[0]);
+        if(index == 0){
+            masterProperties = {...properties};
+        }
         if (properties.language == null) {
             if (blogger.language == null) {
                 throw Error("Language property of default language must be set for ", file);
@@ -47,10 +51,12 @@ for(const file of fs.readdirSync("blog")){
             console.info("Using default language for ", file);
             properties.language = blogger.language;
         }
-
+        
+        // allows to have default properties
+        properties = {...masterProperties, properties};
         const md = tmp[1];
         duplicateBlogs.push([md, properties]);
-    }
+    })
 
     let languages = duplicateBlogs.map(([_, x]) => [x.language, x.url]);
 
