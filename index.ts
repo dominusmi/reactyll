@@ -20,17 +20,14 @@ export interface BlogProperties {
     language: string
 }
 
-export type BlogLanguageWrapper = {[Key: string]: BlogProperties}
-export type RouteWrapper = {[Key: string]: BlogLanguageWrapper}
+export type BlogLanguageWrapper<T> = {[Key: string]: BlogProperties & T}
+export type RouteWrapper<T> = {[Key: string]: BlogLanguageWrapper<T>}
 
-export const getBlogForLanguage = (blog: BlogLanguageWrapper, language: string, defaultLanguage: string): BlogProperties => {
+export const getBlogForLanguage = (blog: BlogLanguageWrapper<any>, language: string, defaultLanguage: string): BlogProperties => {
     return blog[language] ?? blog[defaultLanguage];
 }
 
-export const getUrlForLanguage = (blog: BlogLanguageWrapper, language: string, defaultLanguage: string): string => {
+export const getUrlForLanguage = (blog: BlogLanguageWrapper<any>, language: string, defaultLanguage: string): string => {
     return blog[language]?.url ?? blog[defaultLanguage].url;
 }
-
-
-
 
