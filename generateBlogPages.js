@@ -53,7 +53,7 @@ for(const file of fs.readdirSync("blog")){
         }
         
         // allows to have default properties
-        properties = {...masterProperties, properties};
+        properties = {...masterProperties, ...properties};
         const md = tmp[1];
         duplicateBlogs.push([md, properties]);
     })
