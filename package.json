@@ -1,6 +1,6 @@
 {
   "name": "reactyll",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A Jekyll inspired blog creator for React, with multi-lingual support",
   "main": "dist/index.js",
   "scripts": {
