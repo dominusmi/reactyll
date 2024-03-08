@@ -65,7 +65,7 @@ for(const file of fs.readdirSync("blog")){
         const x = { markdown: md, properties, languages };
         const filename = properties.url.split("/").at(-1);
         // the base64 is needed to avoid issues with special characters such as \n
-        const newComponent = component.replace('%REPLACE%', btoa(encodeURIComponent(JSON.stringify(x))));
+        const newComponent = component.replace('%REPLACE%', btoa(JSON.stringify(x)));
         fs.writeFileSync(`${process.cwd()}/src/_blog/${filename}.tsx`, newComponent);
         mapper[fileRoot][properties.language] = properties;
         imports.push(`const Blog${i} = React.lazy(() => import("./${filename}"))`)

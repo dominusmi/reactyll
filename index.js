@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUrlForLanguage = exports.getBlogForLanguage = void 0;
 var getBlogForLanguage = function (blog, language, defaultLanguage) {
     var _a;
