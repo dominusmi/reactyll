@@ -1,9 +1,16 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
+import fs from 'fs'
+import path from 'path'
+import yaml from 'js-yaml'
+// const fs = require('fs');
+// const path = require('path');
+// const yaml = require('js-yaml');
 
-const { blogger } = require(`${process.cwd()}/package.json`);
+const content = await import(`${process.cwd()}/package.json`, {
+    assert: { type: 'json' }
+  });
+
+const blogger = content.default.blogger;
 
 function deleteFolderRecursive(folderPath) {
     if (fs.existsSync(folderPath)) {
